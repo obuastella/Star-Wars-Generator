@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Star Wars Project</title>
+    <link rel="shortcut icon" href="img/OIP.jpg" type="image/x-icon" />
+    <!-- CSS -->
+    <link
+      rel="stylesheet"
+      href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+    />
+    <!-- Js -->
+    <link
+      rel="stylesheet"
+      href="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    />
+    <link rel="stylesheet" href="style.min.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <h1>Star Wars Generator</h1>
+    <div class="d-flex justify-content-center">
+      <button>Generate Character</button>
+    </div>
+    <div class="container">
+      <img class="profile" src="img/OIP.jpg" alt="starwars logo" />
+      <div class="about">
+        <h2>Name:</h2>
+        <div class="fs-1" id="name">Generating...</h2></div>
+        <h2>Date of Birth:</h2>
+        <div class="fs-2" id="birth">Generating...</div>
+        <h2>Species:</h2>
+        <div class="fs-2" id="species">Generating...</div>
+        <h2>Home Land:</h2>
+        <div class="fs-2" id="homeLand">Generating...</div>
+      </div>
+    </div>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".about").hide();
+        // Getting the different nodes from DOM
+        const $button = $("button");
+        const $profile = $(".profile");
+        const $name = $("#name");
+        const $birth = $("#birth");
+        const $species = $("#species");
+        const $homeLand = $("#homeLand");
+        // The Event listener
+        $("button").on("click", () => {
+          $(".about").show(1000);
+          $randomNumber = Math.ceil(Math.random() * 88);
+          $button.html("Generate new <strong>Character</strong>");
+          $("h1").css({
+            color: "#F1F1F1F1",
+            textShadow: "0px 0px 12px blue"
+          })
+          $button.css({
+            backgroundColor: "#000",
+            transition: ".7s ease-in",
+          });
+          $profile.css({
+            marginLeft: "43%",
+            transition: ".7s ease-in",
+          });
+          // The API request
+          $.get(
+            `https://akabab.github.io/starwars-api/api/id/${$randomNumber}.json`,
+            function (data) {
+              $profile.attr("src", data["image"]);
+              $name.html(`<u>${data["name"]}</u>`);
+              $birth.text(`${data["born"]}`)
+              $species.text(`${data["species"]}`)
+              $homeLand.text(`${data["homeworld"]}`)
+            }
+          );
+        });
+      });
+    </script>
+  </body>
+</html>
